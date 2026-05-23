@@ -1,6 +1,6 @@
 # ClaimShield AI 🚀
 
-AI-powered Insurance Claim Risk Intelligence Platform built using **Google Cloud, Vertex AI, FastAPI, Next.js, RAG-inspired retrieval workflows, and MCP-inspired multi-agent orchestration**.
+AI-powered Insurance Claim Risk Intelligence Platform built using **Google Cloud, Vertex AI, FastAPI, Next.js, Retrieval-Grounded AI, and MCP-inspired multi-agent orchestration**.
 
 Built for **DeployFest 2026** hosted by Google Developer Groups Cloud Bengaluru.
 
@@ -14,18 +14,18 @@ The platform combines:
 
 * AI-powered risk intelligence
 * MCP-inspired multi-agent orchestration
-* Retrieval-grounded AI reasoning
+* Retrieval-grounded reasoning
 * Explainable AI workflows
 * Human-in-the-loop approvals
 * AI observability and monitoring
 
-to create a trustworthy insurance claim investigation system.
+to create a scalable and trustworthy insurance claim investigation system.
 
 ---
 
-# ✨ Features
+# ✨ Key Features
 
-## 🧠 MCP-Inspired Multi-Agent Workflow
+## 🧠 MCP-Inspired Multi-Agent Architecture
 
 The platform uses modular AI agents coordinated through an orchestration layer:
 
@@ -38,26 +38,27 @@ The platform uses modular AI agents coordinated through an orchestration layer:
 This architecture improves:
 
 * modularity
+* workflow visibility
 * explainability
-* workflow tracking
 * enterprise scalability
 
 ---
 
-## 🔍 AI Risk Analysis
+## 🔍 AI Risk Intelligence
 
 * Detects potentially risky insurance claims
 * Generates dynamic risk scores
 * Identifies suspicious policy patterns
+* Supports enterprise investigation workflows
 
 ---
 
-## 📚 Retrieval-Grounded Reasoning
+## 📚 Retrieval-Grounded AI
 
-* Retrieves enterprise insurance investigation context
-* Grounds AI-generated responses
+* Retrieves insurance investigation context
+* Grounds AI-generated reasoning
 * Reduces hallucinations
-* Enables trustworthy AI workflows
+* Improves trustworthiness of AI outputs
 
 ---
 
@@ -71,53 +72,57 @@ This architecture improves:
 
 ## 👨‍💼 Human-in-the-loop Workflow
 
-* Manual review workflows
-* Escalate or approve claims
-* Enterprise-style investigation flow
+* Manual approval workflows
+* Escalation handling
+* AI-assisted decision support
+* Enterprise review process simulation
 
 ---
 
 ## 📈 AI Observability
 
 * Investigation logs
-* AI execution tracking
+* Agent execution tracking
 * Workflow visibility
-* Agent activity monitoring
+* AI activity monitoring
 
 ---
 
-## ☁️ Cloud Deployment
+## ☁️ Cloud-Native Architecture
 
-* Backend deployed on Google Cloud Run
 * Frontend deployed on Google Cloud Run
-* Public live demo
-* Scalable serverless architecture
+* Backend deployed on Google Cloud Run
+* Dataset stored securely in Google Cloud Storage
+* Fully live public deployment
 
 ---
 
 # 🏗️ System Architecture
 
-```text id="arch1"
+```text
 Frontend (Next.js + TailwindCSS)
         ↓
+Cloud Run Frontend
+        ↓
+FastAPI Backend
+        ↓
 MCP Orchestrator Layer
-        ↓
-Risk Analysis Agent
-        ↓
-RAG Retrieval Agent
-        ↓
-Vertex AI Reasoning Agent
+   ↙        ↓         ↘
+Risk      RAG      Vertex AI
+Agent     Agent      Agent
         ↓
 Observability Layer
         ↓
 Human Approval Workflow
+        ↓
+Google Cloud Storage Dataset
 ```
 
 ---
 
 # ⚙️ AI Workflow
 
-```text id="arch2"
+```text
 User selects policy
         ↓
 MCP Orchestrator initializes workflow
@@ -128,7 +133,7 @@ RAG Retrieval Agent fetches grounded context
         ↓
 Vertex AI generates explainable insights
         ↓
-Observability logs workflow execution
+Observability Layer logs execution flow
         ↓
 Human reviewer approves or escalates claim
 ```
@@ -154,6 +159,7 @@ Human reviewer approves or escalates claim
 
 * Vertex AI / Gemini
 * Google Cloud Run
+* Google Cloud Storage
 * MCP-inspired orchestration
 * Retrieval-grounded reasoning
 
@@ -182,13 +188,13 @@ The system uses this data to generate:
 
 ## Frontend
 
-```text id="livefront"
+```text
 https://claimshield-frontend-905201834317.us-central1.run.app
 ```
 
 ## Backend API
 
-```text id="liveback"
+```text
 https://claimshield-backend-905201834317.us-central1.run.app
 ```
 
@@ -198,7 +204,7 @@ https://claimshield-backend-905201834317.us-central1.run.app
 
 ## Clone Repository
 
-```bash id="local1"
+```bash
 git clone <your-repo-url>
 cd claimshield-ai
 ```
@@ -207,13 +213,13 @@ cd claimshield-ai
 
 # Backend Setup
 
-```bash id="local2"
+```bash
 cd backend
 ```
 
 Create virtual environment:
 
-```bash id="local3"
+```bash
 python -m venv venv
 ```
 
@@ -221,25 +227,25 @@ Activate environment:
 
 ### Windows
 
-```bash id="local4"
+```bash
 venv\Scripts\activate
 ```
 
 Install dependencies:
 
-```bash id="local5"
+```bash
 pip install -r requirements.txt
 ```
 
 Run backend:
 
-```bash id="local6"
+```bash
 uvicorn main:app --reload
 ```
 
 Backend runs at:
 
-```text id="local7"
+```text
 http://localhost:8000
 ```
 
@@ -247,25 +253,25 @@ http://localhost:8000
 
 # Frontend Setup
 
-```bash id="local8"
+```bash
 cd frontend
 ```
 
 Install dependencies:
 
-```bash id="local9"
+```bash
 npm install
 ```
 
 Run frontend:
 
-```bash id="local10"
+```bash
 npm run dev
 ```
 
 Frontend runs at:
 
-```text id="local11"
+```text
 http://localhost:3000
 ```
 
@@ -275,7 +281,7 @@ http://localhost:3000
 
 ## Backend Deployment
 
-```bash id="deploy1"
+```bash
 gcloud run deploy claimshield-backend \
 --source . \
 --region us-central1 \
@@ -287,7 +293,7 @@ gcloud run deploy claimshield-backend \
 
 ## Frontend Deployment
 
-```bash id="deploy2"
+```bash
 gcloud run deploy claimshield-frontend \
 --source . \
 --region us-central1 \
@@ -301,26 +307,27 @@ gcloud run deploy claimshield-frontend \
 
 This project directly addresses the DeployFest challenge requirements:
 
-✅ MCP-inspired AI agent orchestration
+✅ Google Cloud-native deployment
+✅ Vertex AI integration
+✅ Live public deployment
+✅ MCP-inspired AI orchestration
 ✅ Task-executing AI agents
 ✅ Retrieval-grounded reasoning
 ✅ Explainable AI outputs
 ✅ AI observability and telemetry
 ✅ Human oversight workflows
-✅ Live cloud deployment
-✅ Vertex AI integration
 
 ---
 
 # 🔮 Future Enhancements
 
-* Real-time streaming claim ingestion
+* Real-time claim ingestion
 * BigQuery integration
-* Advanced ML fraud detection
+* Advanced fraud detection ML models
 * Vector database retrieval
-* Multi-agent orchestration expansion
-* SOC/SIEM integration
+* Expanded multi-agent orchestration
 * Real-time monitoring dashboards
+* Enterprise SIEM/SOC integration
 
 ---
 
