@@ -4,6 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import json
 
+from google.cloud import storage
+from io import StringIO
+
 from mcp_orchestrator import run_mcp_workflow
 from risk_engine import calculate_risk
 from observability import log_event
@@ -23,13 +26,32 @@ app.add_middleware(
 )
 
 # ==========================================
-# LOAD DATASET
+# LOAD DATASET FROM GOOGLE CLOUD STORAGE
 # ==========================================
 
-df = pd.read_csv(
-    "car_insurance.csv",
-    nrows=50
-)
+def load_dataset():
+
+    client = storage.Client()
+
+    bucket = client.bucket(
+        "claimshield-dataset"
+    )
+
+    blob = bucket.blob(
+        "car_insurance.csv"
+    )
+
+    data = blob.download_as_text()
+
+    df = pd.read_csv(
+        StringIO(data),
+        nrows=50
+    )
+
+    return df
+
+
+df = load_dataset()
 
 sample_data = df.sample(15)
 
@@ -42,7 +64,8 @@ def home():
 
     return {
         "message": "ClaimShield AI Backend Running",
-        "architecture": "MCP-inspired Multi-Agent Workflow"
+        "architecture": "MCP-inspired Multi-Agent Workflow",
+        "dataset_source": "Google Cloud Storage"
     }
 
 # ==========================================
@@ -152,6 +175,7 @@ def analyze(policy_id: str):
 
     return {
         "architecture": "MCP-inspired AI Orchestration",
+        "dataset_source": "Google Cloud Storage",
         "customer": customer,
         "risk": workflow["risk"],
         "context": workflow["rag_context"],
@@ -200,7 +224,9 @@ def mcp_status():
     return {
         "status": "ACTIVE",
         "architecture": "MCP-inspired Modular AI Workflow",
+        "dataset_source": "Google Cloud Storage",
         "agents": [
+            "MCP Orchestrator",
             "Risk Analysis Agent",
             "RAG Retrieval Agent",
             "Vertex AI Reasoning Agent",
