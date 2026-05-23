@@ -5,6 +5,9 @@ import axios from "axios"
 
 export default function Home() {
 
+  const API_BASE =
+    "https://claimshield-backend-905201834317.us-central1.run.app"
+
   const [data, setData] = useState<any[]>([])
   const [logs, setLogs] = useState<any[]>([])
   const [selectedAnalysis, setSelectedAnalysis] =
@@ -21,7 +24,7 @@ export default function Home() {
     try {
 
       const res = await axios.get(
-        "http://localhost:8000/policies"
+        `${API_BASE}/policies`
       )
 
       setData(res.data)
@@ -45,14 +48,19 @@ export default function Home() {
 
       setLoading(true)
 
+      // AI investigation simulation
+      await new Promise(resolve =>
+        setTimeout(resolve, 2000)
+      )
+
       const res = await axios.get(
-        `http://localhost:8000/analyze/${policyId}`
+        `${API_BASE}/analyze/${policyId}`
       )
 
       setSelectedAnalysis(res.data)
 
       const logRes = await axios.get(
-        "http://localhost:8000/logs"
+        `${API_BASE}/logs`
       )
 
       setLogs(logRes.data)
@@ -111,8 +119,8 @@ export default function Home() {
             ClaimShield AI
           </h1>
 
-          <p className="text-gray-400 mt-2">
-            Vertex AI-powered Insurance Claim Risk Intelligence Platform
+          <p className="text-gray-400 mt-3 text-lg">
+            AI-powered platform for detecting high-risk insurance claims using explainable AI, RAG-grounded reasoning, and human-in-the-loop workflows.
           </p>
 
         </div>
@@ -376,8 +384,6 @@ export default function Home() {
 
               <div>
 
-                {/* POLICY HEADER */}
-
                 <div className="flex justify-between items-center mb-8">
 
                   <h2 className="text-5xl font-bold">
@@ -402,8 +408,6 @@ export default function Home() {
 
                 </div>
 
-                {/* RISK SCORE */}
-
                 <div className="mb-8">
 
                   <p className="text-red-400 text-3xl font-bold">
@@ -415,8 +419,6 @@ export default function Home() {
                   </p>
 
                 </div>
-
-                {/* REASONS */}
 
                 <div className="mb-10">
 
@@ -440,8 +442,6 @@ export default function Home() {
 
                 </div>
 
-                {/* AI INSIGHT */}
-
                 <div className="mb-10">
 
                   <h3 className="font-bold text-2xl mb-4">
@@ -458,8 +458,6 @@ export default function Home() {
 
                 </div>
 
-                {/* ACTIONS */}
-
                 <div className="flex gap-4 mb-10">
 
                   <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl font-semibold">
@@ -475,8 +473,6 @@ export default function Home() {
                   </button>
 
                 </div>
-
-                {/* OBSERVABILITY */}
 
                 <div>
 
