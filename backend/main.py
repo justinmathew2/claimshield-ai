@@ -4,9 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import json
 
+from mcp_orchestrator import run_mcp_workflow
 from risk_engine import calculate_risk
-from rag_engine import retrieve_context
-from vertex_service import generate_insight
 from observability import log_event
 
 app = FastAPI()
@@ -27,9 +26,11 @@ app.add_middleware(
 # LOAD DATASET
 # ==========================================
 
-df = pd.read_csv("car_insurance.csv")
+df = pd.read_csv(
+    "car_insurance.csv",
+    nrows=50
+)
 
-# Sample policies for live demo
 sample_data = df.sample(15)
 
 # ==========================================
@@ -40,7 +41,8 @@ sample_data = df.sample(15)
 def home():
 
     return {
-        "message": "ClaimShield AI Backend Running"
+        "message": "ClaimShield AI Backend Running",
+        "architecture": "MCP-inspired Multi-Agent Workflow"
     }
 
 # ==========================================
@@ -74,7 +76,7 @@ def get_policies():
         }
 
         # ==========================================
-        # PREVIEW RISK
+        # RISK PREVIEW
         # ==========================================
 
         risk = calculate_risk(customer)
@@ -92,7 +94,7 @@ def get_policies():
     return policies
 
 # ==========================================
-# ANALYZE SINGLE POLICY
+# MCP WORKFLOW ANALYSIS
 # ==========================================
 
 @app.get("/analyze/{policy_id}")
@@ -131,47 +133,17 @@ def analyze(policy_id: str):
     }
 
     # ==========================================
-    # INVESTIGATION START
+    # MCP ORCHESTRATION
     # ==========================================
 
     log_event(
-        f"Investigation Started: {policy_id}"
+        f"MCP Workflow Started: {policy_id}"
     )
 
-    # ==========================================
-    # RISK ANALYSIS
-    # ==========================================
-
-    risk = calculate_risk(customer)
+    workflow = run_mcp_workflow(customer)
 
     log_event(
-        "Risk Analysis Agent Completed"
-    )
-
-    # ==========================================
-    # RAG RETRIEVAL
-    # ==========================================
-
-    context = retrieve_context(
-        "claim investigation strategy"
-    )
-
-    log_event(
-        "RAG Retrieval Agent Completed"
-    )
-
-    # ==========================================
-    # VERTEX AI INSIGHT
-    # ==========================================
-
-    insight = generate_insight(
-        customer,
-        risk,
-        context
-    )
-
-    log_event(
-        "Vertex AI Reasoning Completed"
+        "MCP Workflow Completed"
     )
 
     # ==========================================
@@ -179,9 +151,11 @@ def analyze(policy_id: str):
     # ==========================================
 
     return {
+        "architecture": "MCP-inspired AI Orchestration",
         "customer": customer,
-        "risk": risk,
-        "insight": insight
+        "risk": workflow["risk"],
+        "context": workflow["rag_context"],
+        "insight": workflow["insight"]
     }
 
 # ==========================================
@@ -212,5 +186,24 @@ def approve(action: dict):
     )
 
     return {
-        "status": "approved"
+        "status": "approved",
+        "message": "Human review workflow completed"
+    }
+
+# ==========================================
+# MCP STATUS
+# ==========================================
+
+@app.get("/mcp-status")
+def mcp_status():
+
+    return {
+        "status": "ACTIVE",
+        "architecture": "MCP-inspired Modular AI Workflow",
+        "agents": [
+            "Risk Analysis Agent",
+            "RAG Retrieval Agent",
+            "Vertex AI Reasoning Agent",
+            "Observability Agent"
+        ]
     }

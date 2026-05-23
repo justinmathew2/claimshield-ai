@@ -5,8 +5,16 @@ import axios from "axios"
 
 export default function Home() {
 
+  // ==========================================
+  // BACKEND API
+  // ==========================================
+
   const API_BASE =
     "https://claimshield-backend-905201834317.us-central1.run.app"
+
+  // ==========================================
+  // STATE
+  // ==========================================
 
   const [data, setData] = useState<any[]>([])
   const [logs, setLogs] = useState<any[]>([])
@@ -48,7 +56,7 @@ export default function Home() {
 
       setLoading(true)
 
-      // AI investigation simulation
+      // AI workflow simulation
       await new Promise(resolve =>
         setTimeout(resolve, 2000)
       )
@@ -70,6 +78,7 @@ export default function Home() {
     } catch (error) {
 
       console.error(error)
+
       setLoading(false)
 
     }
@@ -109,7 +118,9 @@ export default function Home() {
 
     <div className="min-h-screen bg-black text-white p-8">
 
+      {/* ========================================== */}
       {/* HEADER */}
+      {/* ========================================== */}
 
       <div className="flex justify-between items-center mb-8">
 
@@ -119,19 +130,21 @@ export default function Home() {
             ClaimShield AI
           </h1>
 
-          <p className="text-gray-400 mt-3 text-lg">
-            AI-powered platform for detecting high-risk insurance claims using explainable AI, RAG-grounded reasoning, and human-in-the-loop workflows.
+          <p className="text-gray-400 mt-3 text-lg max-w-4xl">
+            AI-powered insurance claim investigation platform using
+            MCP-inspired multi-agent orchestration, RAG-grounded reasoning,
+            explainable AI, and human-in-the-loop workflows.
           </p>
 
         </div>
 
         <div className="bg-zinc-900 px-6 py-4 rounded-xl border border-zinc-700">
 
-          <p className="text-gray-400 text-sm mb-2">
+          <p className="text-gray-400 text-sm mb-3">
             Powered By
           </p>
 
-          <div className="flex gap-3 text-sm">
+          <div className="flex gap-3 flex-wrap text-sm">
 
             <span className="bg-red-500 px-3 py-1 rounded-full">
               Vertex AI
@@ -145,13 +158,37 @@ export default function Home() {
               RAG
             </span>
 
+            <span className="bg-purple-500 px-3 py-1 rounded-full">
+              MCP Workflow
+            </span>
+
           </div>
 
         </div>
 
       </div>
 
+      {/* ========================================== */}
+      {/* LIVE CLOUD BADGE */}
+      {/* ========================================== */}
+
+      <div className="mb-8">
+
+        <div className="inline-flex items-center gap-3 bg-zinc-900 border border-green-500 px-5 py-3 rounded-xl">
+
+          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+
+          <span className="font-semibold text-green-400">
+            LIVE ON GOOGLE CLOUD RUN
+          </span>
+
+        </div>
+
+      </div>
+
+      {/* ========================================== */}
       {/* METRICS */}
+      {/* ========================================== */}
 
       <div className="grid grid-cols-4 gap-6 mb-10">
 
@@ -205,41 +242,71 @@ export default function Home() {
 
       </div>
 
+      {/* ========================================== */}
       {/* AGENTS */}
+      {/* ========================================== */}
 
       <div className="flex gap-4 mb-10 flex-wrap">
 
-        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-zinc-700">
+        {/* MCP ORCHESTRATOR */}
+
+        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-purple-500 shadow-lg shadow-purple-500/20">
+
+          <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+
+          <span className="font-semibold">
+            MCP Orchestrator ACTIVE
+          </span>
+
+        </div>
+
+        {/* RISK ANALYSIS AGENT */}
+
+        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-red-500 shadow-lg shadow-red-500/20">
 
           <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
 
-          Risk Analysis Agent ACTIVE
+          <span className="font-semibold">
+            Risk Analysis Agent ACTIVE
+          </span>
 
         </div>
 
-        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-zinc-700">
+        {/* RAG RETRIEVAL AGENT */}
+
+        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-yellow-500 shadow-lg shadow-yellow-500/20">
 
           <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
 
-          RAG Retrieval Agent ACTIVE
+          <span className="font-semibold">
+            RAG Retrieval Agent ACTIVE
+          </span>
 
         </div>
 
-        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-zinc-700">
+        {/* VERTEX AI AGENT */}
+
+        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-green-500 shadow-lg shadow-green-500/20">
 
           <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
 
-          Vertex AI Agent ACTIVE
+          <span className="font-semibold">
+            Vertex AI Agent ACTIVE
+          </span>
 
         </div>
 
       </div>
 
+      {/* ========================================== */}
       {/* MAIN GRID */}
+      {/* ========================================== */}
 
       <div className="grid grid-cols-2 gap-8">
 
+        {/* ========================================== */}
         {/* LEFT PANEL */}
+        {/* ========================================== */}
 
         <div>
 
@@ -340,7 +407,9 @@ export default function Home() {
 
         </div>
 
+        {/* ========================================== */}
         {/* RIGHT PANEL */}
+        {/* ========================================== */}
 
         <div>
 
@@ -356,7 +425,13 @@ export default function Home() {
 
                 <div className="animate-pulse text-yellow-400 text-xl">
 
-                  Initializing AI investigation...
+                  MCP Orchestrator initializing investigation...
+
+                </div>
+
+                <div className="animate-pulse border-l-2 border-purple-500 pl-4 py-2">
+
+                  MCP Orchestrator routing agent workflow...
 
                 </div>
 
@@ -368,7 +443,7 @@ export default function Home() {
 
                 <div className="animate-pulse border-l-2 border-yellow-500 pl-4 py-2">
 
-                  Retrieving enterprise claim policies...
+                  RAG Retrieval Agent fetching grounded context...
 
                 </div>
 
@@ -458,6 +533,22 @@ export default function Home() {
 
                 </div>
 
+                <div className="mb-10">
+
+                  <h3 className="font-bold text-2xl mb-4">
+                    MCP Workflow Architecture
+                  </h3>
+
+                  <div className="bg-black p-6 rounded-2xl border border-purple-500">
+
+                    <p className="text-purple-300 leading-8">
+                      MCP Orchestrator → Risk Analysis Agent → RAG Retrieval Agent → Vertex AI Reasoning Agent → Observability Layer
+                    </p>
+
+                  </div>
+
+                </div>
+
                 <div className="flex gap-4 mb-10">
 
                   <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl font-semibold">
@@ -526,6 +617,10 @@ export default function Home() {
                   <div className="mt-10 space-y-3 text-left">
 
                     <div>
+                      ✓ MCP-inspired Multi-Agent Workflow
+                    </div>
+
+                    <div>
                       ✓ Explainable AI
                     </div>
 
@@ -556,6 +651,16 @@ export default function Home() {
           </div>
 
         </div>
+
+      </div>
+
+      {/* ========================================== */}
+      {/* FOOTER */}
+      {/* ========================================== */}
+
+      <div className="mt-16 text-center text-gray-500 text-sm">
+
+        Built for DeployFest 2026 using Google Cloud, Vertex AI, FastAPI & MCP-inspired Multi-Agent Architecture.
 
       </div>
 
