@@ -1,6 +1,6 @@
 # ClaimShield AI 🚀
 
-AI-powered Insurance Claim Risk Intelligence Platform built using **Google Cloud, Vertex AI, FastAPI, Next.js, RAG pipelines, and Explainable AI**.
+AI-powered Insurance Claim Risk Intelligence Platform built using **Google Cloud, Vertex AI, FastAPI, Next.js, RAG-inspired retrieval workflows, and MCP-inspired multi-agent orchestration**.
 
 Built for **DeployFest 2026** hosted by Google Developer Groups Cloud Bengaluru.
 
@@ -13,9 +13,10 @@ ClaimShield AI is an enterprise-grade AI investigation platform designed to iden
 The platform combines:
 
 * AI-powered risk intelligence
-* Retrieval-Augmented Generation (RAG)
-* Explainable AI reasoning
-* Human-in-the-loop workflows
+* MCP-inspired multi-agent orchestration
+* Retrieval-grounded AI reasoning
+* Explainable AI workflows
+* Human-in-the-loop approvals
 * AI observability and monitoring
 
 to create a trustworthy insurance claim investigation system.
@@ -24,23 +25,49 @@ to create a trustworthy insurance claim investigation system.
 
 # ✨ Features
 
+## 🧠 MCP-Inspired Multi-Agent Workflow
+
+The platform uses modular AI agents coordinated through an orchestration layer:
+
+* MCP Orchestrator Agent
+* Risk Analysis Agent
+* RAG Retrieval Agent
+* Vertex AI Reasoning Agent
+* Observability Agent
+
+This architecture improves:
+
+* modularity
+* explainability
+* workflow tracking
+* enterprise scalability
+
+---
+
 ## 🔍 AI Risk Analysis
 
 * Detects potentially risky insurance claims
 * Generates dynamic risk scores
 * Identifies suspicious policy patterns
 
-## 🧠 Vertex AI Integration
+---
 
-* AI-generated explainable claim investigations
-* Human-readable fraud insights
-* Context-aware reasoning
+## 📚 Retrieval-Grounded Reasoning
 
-## 📚 RAG Pipeline
+* Retrieves enterprise insurance investigation context
+* Grounds AI-generated responses
+* Reduces hallucinations
+* Enables trustworthy AI workflows
 
-* Grounded AI responses
-* Retrieval-based investigation context
-* Reduced hallucinations
+---
+
+## 🤖 Vertex AI Integration
+
+* AI-generated explainable investigations
+* Human-readable claim insights
+* Context-aware reasoning using Gemini
+
+---
 
 ## 👨‍💼 Human-in-the-loop Workflow
 
@@ -48,36 +75,62 @@ to create a trustworthy insurance claim investigation system.
 * Escalate or approve claims
 * Enterprise-style investigation flow
 
+---
+
 ## 📈 AI Observability
 
 * Investigation logs
 * AI execution tracking
+* Workflow visibility
 * Agent activity monitoring
+
+---
 
 ## ☁️ Cloud Deployment
 
 * Backend deployed on Google Cloud Run
-* Publicly accessible live demo
-* Scalable serverless infrastructure
+* Frontend deployed on Google Cloud Run
+* Public live demo
+* Scalable serverless architecture
 
 ---
 
-# 🏗️ Architecture
+# 🏗️ System Architecture
 
-```text
+```text id="arch1"
 Frontend (Next.js + TailwindCSS)
         ↓
-FastAPI Backend
+MCP Orchestrator Layer
         ↓
-Risk Analysis Engine
+Risk Analysis Agent
         ↓
-RAG Retrieval Pipeline
+RAG Retrieval Agent
         ↓
-Vertex AI / Gemini
+Vertex AI Reasoning Agent
         ↓
-Explainable AI Insights
+Observability Layer
         ↓
-Observability Logs + Human Review
+Human Approval Workflow
+```
+
+---
+
+# ⚙️ AI Workflow
+
+```text id="arch2"
+User selects policy
+        ↓
+MCP Orchestrator initializes workflow
+        ↓
+Risk Analysis Agent calculates risk score
+        ↓
+RAG Retrieval Agent fetches grounded context
+        ↓
+Vertex AI generates explainable insights
+        ↓
+Observability logs workflow execution
+        ↓
+Human reviewer approves or escalates claim
 ```
 
 ---
@@ -101,7 +154,8 @@ Observability Logs + Human Review
 
 * Vertex AI / Gemini
 * Google Cloud Run
-* RAG Pipeline
+* MCP-inspired orchestration
+* Retrieval-grounded reasoning
 
 ---
 
@@ -116,7 +170,11 @@ The project uses a real-world car insurance claim prediction dataset containing:
 * Population density
 * Claim status
 
-The system uses this data to generate risk scores and AI-powered investigations.
+The system uses this data to generate:
+
+* dynamic risk scores
+* explainable AI insights
+* enterprise investigation workflows
 
 ---
 
@@ -124,13 +182,13 @@ The system uses this data to generate risk scores and AI-powered investigations.
 
 ## Frontend
 
-```text
+```text id="livefront"
 https://claimshield-frontend-905201834317.us-central1.run.app
 ```
 
 ## Backend API
 
-```text
+```text id="liveback"
 https://claimshield-backend-905201834317.us-central1.run.app
 ```
 
@@ -140,7 +198,7 @@ https://claimshield-backend-905201834317.us-central1.run.app
 
 ## Clone Repository
 
-```bash
+```bash id="local1"
 git clone <your-repo-url>
 cd claimshield-ai
 ```
@@ -149,13 +207,13 @@ cd claimshield-ai
 
 # Backend Setup
 
-```bash
+```bash id="local2"
 cd backend
 ```
 
 Create virtual environment:
 
-```bash
+```bash id="local3"
 python -m venv venv
 ```
 
@@ -163,25 +221,25 @@ Activate environment:
 
 ### Windows
 
-```bash
+```bash id="local4"
 venv\Scripts\activate
 ```
 
 Install dependencies:
 
-```bash
+```bash id="local5"
 pip install -r requirements.txt
 ```
 
 Run backend:
 
-```bash
+```bash id="local6"
 uvicorn main:app --reload
 ```
 
 Backend runs at:
 
-```text
+```text id="local7"
 http://localhost:8000
 ```
 
@@ -189,35 +247,35 @@ http://localhost:8000
 
 # Frontend Setup
 
-```bash
+```bash id="local8"
 cd frontend
 ```
 
 Install dependencies:
 
-```bash
+```bash id="local9"
 npm install
 ```
 
 Run frontend:
 
-```bash
+```bash id="local10"
 npm run dev
 ```
 
 Frontend runs at:
 
-```text
+```text id="local11"
 http://localhost:3000
 ```
 
 ---
 
-# ☁️ Deploying to Cloud Run
+# ☁️ Deploying to Google Cloud Run
 
 ## Backend Deployment
 
-```bash
+```bash id="deploy1"
 gcloud run deploy claimshield-backend \
 --source . \
 --region us-central1 \
@@ -225,9 +283,11 @@ gcloud run deploy claimshield-backend \
 --memory 1Gi
 ```
 
+---
+
 ## Frontend Deployment
 
-```bash
+```bash id="deploy2"
 gcloud run deploy claimshield-frontend \
 --source . \
 --region us-central1 \
@@ -237,12 +297,13 @@ gcloud run deploy claimshield-frontend \
 
 ---
 
-# 🎯 Mission Alignment
+# 🎯 DeployFest Mission Alignment
 
 This project directly addresses the DeployFest challenge requirements:
 
+✅ MCP-inspired AI agent orchestration
 ✅ Task-executing AI agents
-✅ RAG-grounded reasoning
+✅ Retrieval-grounded reasoning
 ✅ Explainable AI outputs
 ✅ AI observability and telemetry
 ✅ Human oversight workflows
@@ -255,9 +316,9 @@ This project directly addresses the DeployFest challenge requirements:
 
 * Real-time streaming claim ingestion
 * BigQuery integration
-* Advanced fraud ML models
-* Multi-agent orchestration
-* Vector database integration
+* Advanced ML fraud detection
+* Vector database retrieval
+* Multi-agent orchestration expansion
 * SOC/SIEM integration
 * Real-time monitoring dashboards
 
