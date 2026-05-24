@@ -132,15 +132,30 @@ Supports:
 * workflow traceability
 
 ---
+## Human-in-the-loop Audit Logging
 
-## Human-in-the-loop Workflow
+ClaimShield AI maintains full workflow traceability through its observability layer.
 
-Allows investigators to:
+All workflow stages are logged, including:
+- MCP orchestration events
+- Risk Analysis Agent execution
+- RAG retrieval events
+- Vertex AI reasoning generation
+- Human approval decisions
+- Investigation escalation actions
 
-* Approve Claim
-* Escalate Investigation
+When a human reviewer clicks:
+- Approve Claim
+- Escalate Investigation
 
-All actions are logged through the observability layer.
+the action is recorded through the observability layer and stored as part of the audit trail.
+
+This enables:
+- enterprise monitoring
+- workflow traceability
+- AI governance
+- auditability
+- responsible AI operations
 
 ---
 
