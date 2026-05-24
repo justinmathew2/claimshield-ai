@@ -236,6 +236,12 @@ The dataset contains insurance policyholder information including:
 
 The target variable indicates whether the policyholder is likely to file a claim within the next 6 months.
 
+## Dataset Source
+
+Insurance Claim Prediction Dataset  
+Source: Kaggle
+
+https://www.kaggle.com/datasets/ifteshanajnin/carinsuranceclaimprediction-classification
 ---
 
 # Key Highlights
