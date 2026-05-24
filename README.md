@@ -181,27 +181,9 @@ All actions are logged through the observability layer.
 
 # System Architecture
 
-```text id="readme1"
-Frontend (Next.js)
-        ↓
-Cloud Run Frontend
-        ↓
-FastAPI Backend
-        ↓
-MCP Orchestrator
-        ↓
-Risk Analysis Agent
-        ↓
-RAG Retrieval Agent
-        ↓
-Vertex AI Reasoning Agent
-        ↓
-Observability Layer
-        ↓
-Human Approval Workflow
-        ↓
-Google Cloud Storage Dataset
-```
+<p align="center">
+  <img src="assets/architecture.png" width="900"/>
+</p>
 
 ---
 
