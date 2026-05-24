@@ -182,26 +182,16 @@ All actions are logged through the observability layer.
 # System Architecture
 
 <p align="center">
-  <img src="assets/architecture.png" width="900"/>
+  <img src="assets/Architecture.png" width="900"/>
 </p>
 
 ---
 
 # AI Workflow
 
-```text id="readme2"
-Policy Selection
-        ↓
-Risk Analysis Agent
-        ↓
-RAG Context Retrieval
-        ↓
-Vertex AI Insight Generation
-        ↓
-Observability Logging
-        ↓
-Human Approval / Escalation
-```
+<p align="center">
+  <img src="assets/AI_Workflow.png" width="900"/>
+</p>
 
 ---
 
