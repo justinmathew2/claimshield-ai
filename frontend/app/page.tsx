@@ -1,48 +1,66 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import axios from "axios"
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Home() {
 
-  // ==========================================
-  // BACKEND API
-  // ==========================================
+  const [policies, setPolicies] = useState<any[]>([]);
+  const [selectedPolicy, setSelectedPolicy] = useState<any>(null);
+  const [logs, setLogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const API_BASE =
-    "https://claimshield-backend-905201834317.us-central1.run.app"
-
-  // ==========================================
-  // STATE
-  // ==========================================
-
-  const [data, setData] = useState<any[]>([])
-  const [logs, setLogs] = useState<any[]>([])
-  const [selectedAnalysis, setSelectedAnalysis] =
-    useState<any>(null)
-
-  const [loading, setLoading] = useState(false)
+  const BACKEND_URL =
+    "https://claimshield-backend-905201834317.us-central1.run.app";
 
   // ==========================================
-  // FETCH POLICIES
+  // LOAD POLICIES
   // ==========================================
+
+  useEffect(() => {
+
+    fetchPolicies();
+    fetchLogs();
+
+  }, []);
 
   const fetchPolicies = async () => {
 
     try {
 
-      const res = await axios.get(
-        `${API_BASE}/policies`
-      )
+      const response = await axios.get(
+        `${BACKEND_URL}/policies`
+      );
 
-      setData(res.data)
+      setPolicies(response.data);
 
     } catch (error) {
 
-      console.error(error)
+      console.error(error);
 
     }
-  }
+  };
+
+  // ==========================================
+  // FETCH LOGS
+  // ==========================================
+
+  const fetchLogs = async () => {
+
+    try {
+
+      const response = await axios.get(
+        `${BACKEND_URL}/logs`
+      );
+
+      setLogs(response.data.reverse());
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+  };
 
   // ==========================================
   // ANALYZE POLICY
@@ -54,61 +72,106 @@ export default function Home() {
 
     try {
 
-      setLoading(true)
+      setLoading(true);
 
-      // AI workflow simulation
-      await new Promise(resolve =>
-        setTimeout(resolve, 2000)
-      )
+      const response = await axios.get(
+        `${BACKEND_URL}/analyze/${policyId}`
+      );
 
-      const res = await axios.get(
-        `${API_BASE}/analyze/${policyId}`
-      )
+      setSelectedPolicy(response.data);
 
-      setSelectedAnalysis(res.data)
+      fetchLogs();
 
-      const logRes = await axios.get(
-        `${API_BASE}/logs`
-      )
-
-      setLogs(logRes.data)
-
-      setLoading(false)
+      setLoading(false);
 
     } catch (error) {
 
-      console.error(error)
+      console.error(error);
 
-      setLoading(false)
+      setLoading(false);
 
     }
-  }
+  };
 
   // ==========================================
-  // INITIAL LOAD
+  // HUMAN APPROVAL ACTION
   // ==========================================
 
-  useEffect(() => {
+  const submitHumanAction = async (
+    action: string
+  ) => {
 
-    fetchPolicies()
+    try {
 
-  }, [])
+      await axios.post(
+        `${BACKEND_URL}/approve`,
+        {
+          action: action,
+        }
+      );
+
+      alert(
+        `Human action submitted: ${action}`
+      );
+
+      fetchLogs();
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+  };
 
   // ==========================================
-  // RISK COUNTS
+  // RISK COLORS
   // ==========================================
 
-  const highRisk = data.filter(
-    item => item.risk_level === "HIGH"
-  ).length
+  const getRiskColor = (
+    level: string
+  ) => {
 
-  const mediumRisk = data.filter(
-    item => item.risk_level === "MEDIUM"
-  ).length
+    if (level === "HIGH") {
+      return "border-red-500";
+    }
 
-  const lowRisk = data.filter(
-    item => item.risk_level === "LOW"
-  ).length
+    if (level === "MEDIUM") {
+      return "border-yellow-500";
+    }
+
+    return "border-green-500";
+  };
+
+  const getBadgeColor = (
+    level: string
+  ) => {
+
+    if (level === "HIGH") {
+      return "bg-red-500";
+    }
+
+    if (level === "MEDIUM") {
+      return "bg-yellow-500 text-black";
+    }
+
+    return "bg-green-500";
+  };
+
+  // ==========================================
+  // COUNTS
+  // ==========================================
+
+  const highRisk = policies.filter(
+    (p) => p.risk_level === "HIGH"
+  ).length;
+
+  const mediumRisk = policies.filter(
+    (p) => p.risk_level === "MEDIUM"
+  ).length;
+
+  const lowRisk = policies.filter(
+    (p) => p.risk_level === "LOW"
+  ).length;
 
   // ==========================================
   // UI
@@ -116,71 +179,53 @@ export default function Home() {
 
   return (
 
-    <div className="min-h-screen bg-black text-white p-8">
+    <main className="min-h-screen bg-black text-white p-8">
 
       {/* ========================================== */}
       {/* HEADER */}
       {/* ========================================== */}
 
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-start mb-10">
 
         <div>
 
-          <h1 className="text-6xl font-bold text-red-500">
+          <h1 className="text-7xl font-extrabold text-red-500">
             ClaimShield AI
           </h1>
 
-          <p className="text-gray-400 mt-3 text-lg max-w-4xl">
-            AI-powered insurance claim investigation platform using
-            MCP-inspired multi-agent orchestration, RAG-grounded reasoning,
-            explainable AI, and human-in-the-loop workflows.
+          <p className="text-gray-400 mt-4 text-2xl max-w-5xl">
+            AI-powered platform for detecting high-risk insurance claims
+            using explainable AI, RAG-grounded reasoning,
+            MCP-inspired orchestration, and human-in-the-loop workflows.
           </p>
 
         </div>
 
-        <div className="bg-zinc-900 px-6 py-4 rounded-xl border border-zinc-700">
+        <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 w-[320px]">
 
-          <p className="text-gray-400 text-sm mb-3">
+          <p className="text-gray-400 mb-4">
             Powered By
           </p>
 
-          <div className="flex gap-3 flex-wrap text-sm">
+          <div className="flex gap-3 flex-wrap">
 
-            <span className="bg-red-500 px-3 py-1 rounded-full">
+            <span className="bg-red-500 px-4 py-2 rounded-full font-bold">
               Vertex AI
             </span>
 
-            <span className="bg-yellow-500 text-black px-3 py-1 rounded-full">
+            <span className="bg-yellow-500 text-black px-4 py-2 rounded-full font-bold">
               FastAPI
             </span>
 
-            <span className="bg-green-500 px-3 py-1 rounded-full">
+            <span className="bg-green-500 px-4 py-2 rounded-full font-bold">
               RAG
             </span>
 
-            <span className="bg-purple-500 px-3 py-1 rounded-full">
-              MCP Workflow
+            <span className="bg-purple-600 px-4 py-2 rounded-full font-bold">
+              MCP
             </span>
 
           </div>
-
-        </div>
-
-      </div>
-
-      {/* ========================================== */}
-      {/* LIVE CLOUD BADGE */}
-      {/* ========================================== */}
-
-      <div className="mb-8">
-
-        <div className="inline-flex items-center gap-3 bg-zinc-900 border border-green-500 px-5 py-3 rounded-xl">
-
-          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-
-          <span className="font-semibold text-green-400">
-            LIVE ON GOOGLE CLOUD RUN
-          </span>
 
         </div>
 
@@ -194,23 +239,23 @@ export default function Home() {
 
         <div className="bg-zinc-900 p-6 rounded-2xl border border-zinc-800">
 
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-2xl">
             Policies Loaded
           </p>
 
-          <h2 className="text-5xl font-bold mt-2">
-            {data.length}
+          <h2 className="text-6xl font-bold mt-4">
+            {policies.length}
           </h2>
 
         </div>
 
         <div className="bg-zinc-900 p-6 rounded-2xl border border-red-500">
 
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-2xl">
             High Risk Policies
           </p>
 
-          <h2 className="text-5xl font-bold text-red-500 mt-2">
+          <h2 className="text-6xl font-bold text-red-500 mt-4">
             {highRisk}
           </h2>
 
@@ -218,11 +263,11 @@ export default function Home() {
 
         <div className="bg-zinc-900 p-6 rounded-2xl border border-yellow-500">
 
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-2xl">
             Medium Risk
           </p>
 
-          <h2 className="text-5xl font-bold text-yellow-400 mt-2">
+          <h2 className="text-6xl font-bold text-yellow-400 mt-4">
             {mediumRisk}
           </h2>
 
@@ -230,11 +275,11 @@ export default function Home() {
 
         <div className="bg-zinc-900 p-6 rounded-2xl border border-green-500">
 
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-2xl">
             Low Risk
           </p>
 
-          <h2 className="text-5xl font-bold text-green-400 mt-2">
+          <h2 className="text-6xl font-bold text-green-400 mt-4">
             {lowRisk}
           </h2>
 
@@ -246,54 +291,22 @@ export default function Home() {
       {/* AGENTS */}
       {/* ========================================== */}
 
-      <div className="flex gap-4 mb-10 flex-wrap">
+      <div className="flex gap-4 flex-wrap mb-12">
 
-        {/* MCP ORCHESTRATOR */}
-
-        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-purple-500 shadow-lg shadow-purple-500/20">
-
-          <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-
-          <span className="font-semibold">
-            MCP Orchestrator ACTIVE
-          </span>
-
+        <div className="bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4">
+          🔴 Risk Analysis Agent ACTIVE
         </div>
 
-        {/* RISK ANALYSIS AGENT */}
-
-        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-red-500 shadow-lg shadow-red-500/20">
-
-          <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-
-          <span className="font-semibold">
-            Risk Analysis Agent ACTIVE
-          </span>
-
+        <div className="bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4">
+          🟡 RAG Retrieval Agent ACTIVE
         </div>
 
-        {/* RAG RETRIEVAL AGENT */}
-
-        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-yellow-500 shadow-lg shadow-yellow-500/20">
-
-          <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
-
-          <span className="font-semibold">
-            RAG Retrieval Agent ACTIVE
-          </span>
-
+        <div className="bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4">
+          🟢 Vertex AI Agent ACTIVE
         </div>
 
-        {/* VERTEX AI AGENT */}
-
-        <div className="bg-zinc-900 p-4 rounded-xl flex items-center gap-3 border border-green-500 shadow-lg shadow-green-500/20">
-
-          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-
-          <span className="font-semibold">
-            Vertex AI Agent ACTIVE
-          </span>
-
+        <div className="bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4">
+          🟣 MCP Orchestrator ACTIVE
         </div>
 
       </div>
@@ -305,96 +318,67 @@ export default function Home() {
       <div className="grid grid-cols-2 gap-8">
 
         {/* ========================================== */}
-        {/* LEFT PANEL */}
+        {/* POLICIES */}
         {/* ========================================== */}
 
         <div>
 
-          <h2 className="text-4xl font-bold mb-6">
+          <h2 className="text-5xl font-bold mb-8">
             Insurance Policies
           </h2>
 
-          <div className="grid gap-6 max-h-[1000px] overflow-y-scroll pr-2">
+          <div className="space-y-6 max-h-[900px] overflow-y-auto pr-4">
 
-            {data.map((item, index) => (
+            {policies.map((policy) => (
 
               <div
-                key={index}
-                className={`
-                  bg-zinc-900
-                  p-6
-                  rounded-2xl
-                  border
-                  transition
-                  hover:scale-[1.01]
-
-                  ${
-                    item.risk_level === "HIGH"
-                      ? "border-red-500"
-                      : item.risk_level === "MEDIUM"
-                      ? "border-yellow-500"
-                      : "border-green-500"
-                  }
-                `}
+                key={policy.policy_id}
+                className={`bg-zinc-900 rounded-3xl p-8 border ${getRiskColor(policy.risk_level)}`}
               >
 
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-start">
 
-                  <h2 className="text-3xl font-bold">
-                    {item.policy_id}
-                  </h2>
+                  <h3 className="text-5xl font-bold">
+                    {policy.policy_id}
+                  </h3>
 
                   <span
-                    className={`
-                      px-4 py-1 rounded-full text-sm font-bold
-
-                      ${
-                        item.risk_level === "HIGH"
-                          ? "bg-red-500"
-                          : item.risk_level === "MEDIUM"
-                          ? "bg-yellow-500 text-black"
-                          : "bg-green-500"
-                      }
-                    `}
+                    className={`px-5 py-2 rounded-full font-bold text-lg ${getBadgeColor(policy.risk_level)}`}
                   >
-                    {item.risk_level}
+                    {policy.risk_level}
                   </span>
 
                 </div>
 
-                <div className="mt-5 space-y-3 text-gray-300">
+                <div className="mt-6 space-y-4 text-2xl text-gray-300">
 
                   <p>
-                    Policy Tenure:
-                    {" "}
-                    {item.policy_tenure.toFixed(2)}
+                    Policy Tenure:{" "}
+                    {policy.policy_tenure.toFixed(2)}
                   </p>
 
                   <p>
-                    Car Age:
-                    {" "}
-                    {item.age_of_car}
+                    Car Age:{" "}
+                    {policy.age_of_car.toFixed(2)}
                   </p>
 
                   <p>
-                    Historical Claim:
-                    {" "}
-                    {item.claim_status}
+                    Historical Claim:{" "}
+                    {policy.claim_status}
                   </p>
 
-                  <p className="text-red-400 font-semibold">
-                    Risk Score:
-                    {" "}
-                    {item.risk_score}
+                  <p className="text-red-400 font-bold">
+                    Risk Score:{" "}
+                    {policy.risk_score}
                   </p>
 
                 </div>
 
                 <button
                   onClick={() =>
-                    analyzePolicy(item.policy_id)
+                    analyzePolicy(policy.policy_id)
                   }
-                  className="mt-6 bg-red-600 hover:bg-red-700 transition px-5 py-3 rounded-xl font-semibold"
+                  className="mt-8 bg-red-600 hover:bg-red-700 px-8 py-4 rounded-2xl text-xl font-bold"
                 >
                   Analyze Risk
                 </button>
@@ -408,262 +392,164 @@ export default function Home() {
         </div>
 
         {/* ========================================== */}
-        {/* RIGHT PANEL */}
+        {/* INVESTIGATION */}
         {/* ========================================== */}
 
         <div>
 
-          <h2 className="text-4xl font-bold mb-6">
+          <h2 className="text-5xl font-bold mb-8">
             AI Investigation
           </h2>
 
-          <div className="bg-zinc-900 rounded-2xl p-6 min-h-[1000px] border border-zinc-800">
+          {!selectedPolicy ? (
 
-            {loading ? (
+            <div className="bg-zinc-900 rounded-3xl p-10 h-[700px] flex items-center justify-center text-3xl text-gray-500">
+              Select a policyholder to start AI investigation.
+            </div>
 
-              <div className="space-y-8">
+          ) : (
 
-                <div className="animate-pulse text-yellow-400 text-xl">
+            <div className="bg-zinc-900 rounded-3xl p-8">
 
-                  MCP Orchestrator initializing investigation...
+              <div className="flex justify-between items-start">
 
+                <h2 className="text-6xl font-bold">
+                  {selectedPolicy.customer.policy_id}
+                </h2>
+
+                <span
+                  className={`px-6 py-3 rounded-full font-bold text-2xl ${getBadgeColor(selectedPolicy.risk.risk_level)}`}
+                >
+                  {selectedPolicy.risk.risk_level}
+                </span>
+
+              </div>
+
+              <h3 className="text-5xl font-bold text-red-400 mt-10">
+                Risk Score: {selectedPolicy.risk.risk_score}
+              </h3>
+
+              {/* RISK REASONS */}
+
+              <div className="mt-10">
+
+                <h3 className="text-4xl font-bold mb-6">
+                  Risk Reasons
+                </h3>
+
+                <ul className="list-disc ml-8 text-2xl text-gray-300 space-y-3">
+
+                  {selectedPolicy.risk.reasons.map(
+                    (reason: string, idx: number) => (
+
+                      <li key={idx}>
+                        {reason}
+                      </li>
+
+                    )
+                  )}
+
+                </ul>
+
+              </div>
+
+              {/* INSIGHT */}
+
+              <div className="mt-12">
+
+                <h3 className="text-4xl font-bold mb-6">
+                  Vertex AI Insight
+                </h3>
+
+                <div className="bg-black border border-zinc-700 rounded-2xl p-6 text-xl whitespace-pre-wrap leading-loose text-gray-200">
+                  {selectedPolicy.insight}
                 </div>
 
-                <div className="animate-pulse border-l-2 border-purple-500 pl-4 py-2">
+              </div>
 
-                  MCP Orchestrator routing agent workflow...
+              {/* MCP FLOW */}
 
+              <div className="mt-12">
+
+                <h3 className="text-4xl font-bold mb-6">
+                  MCP Workflow Architecture
+                </h3>
+
+                <div className="bg-black border border-purple-500 rounded-2xl p-6 text-xl text-purple-300">
+                  MCP Orchestrator →
+                  Risk Analysis Agent →
+                  RAG Retrieval Agent →
+                  Vertex AI Reasoning Agent →
+                  Observability Layer
                 </div>
 
-                <div className="animate-pulse border-l-2 border-red-500 pl-4 py-2">
+              </div>
 
-                  Risk Analysis Agent processing policy...
+              {/* HUMAN ACTIONS */}
 
-                </div>
+              <div className="mt-12 flex gap-6">
 
-                <div className="animate-pulse border-l-2 border-yellow-500 pl-4 py-2">
+                <button
+                  onClick={() =>
+                    submitHumanAction("escalate")
+                  }
+                  className="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-2xl text-xl font-bold"
+                >
+                  Escalate Investigation
+                </button>
 
-                  RAG Retrieval Agent fetching grounded context...
+                <button
+                  onClick={() =>
+                    submitHumanAction("approve")
+                  }
+                  className="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-2xl text-xl font-bold"
+                >
+                  Approve Claim
+                </button>
 
-                </div>
+              </div>
 
-                <div className="animate-pulse border-l-2 border-green-500 pl-4 py-2">
+              {/* OBSERVABILITY */}
 
-                  Vertex AI generating explainable insights...
+              <div className="mt-14">
+
+                <h3 className="text-4xl font-bold mb-8">
+                  AI Observability
+                </h3>
+
+                <div className="space-y-6 max-h-[350px] overflow-y-auto pr-2">
+
+                  {logs.map((log, idx) => (
+
+                    <div
+                      key={idx}
+                      className="border-l-2 border-red-500 pl-6"
+                    >
+
+                      <p className="text-2xl font-bold">
+                        {log.step}
+                      </p>
+
+                      <p className="text-gray-400 text-lg mt-2">
+                        {log.timestamp}
+                      </p>
+
+                    </div>
+
+                  ))}
 
                 </div>
 
               </div>
 
-            ) : selectedAnalysis ? (
+            </div>
 
-              <div>
-
-                <div className="flex justify-between items-center mb-8">
-
-                  <h2 className="text-5xl font-bold">
-                    {selectedAnalysis.customer.policy_id}
-                  </h2>
-
-                  <span
-                    className={`
-                      px-5 py-2 rounded-full text-lg font-bold
-
-                      ${
-                        selectedAnalysis.risk.risk_level === "HIGH"
-                          ? "bg-red-500"
-                          : selectedAnalysis.risk.risk_level === "MEDIUM"
-                          ? "bg-yellow-500 text-black"
-                          : "bg-green-500"
-                      }
-                    `}
-                  >
-                    {selectedAnalysis.risk.risk_level}
-                  </span>
-
-                </div>
-
-                <div className="mb-8">
-
-                  <p className="text-red-400 text-3xl font-bold">
-
-                    Risk Score:
-                    {" "}
-                    {selectedAnalysis.risk.risk_score}
-
-                  </p>
-
-                </div>
-
-                <div className="mb-10">
-
-                  <h3 className="font-bold text-2xl mb-4">
-                    Risk Reasons
-                  </h3>
-
-                  <ul className="list-disc ml-6 text-gray-300 space-y-3">
-
-                    {selectedAnalysis.risk.reasons.map(
-                      (reason: string, i: number) => (
-
-                        <li key={i}>
-                          {reason}
-                        </li>
-
-                      )
-                    )}
-
-                  </ul>
-
-                </div>
-
-                <div className="mb-10">
-
-                  <h3 className="font-bold text-2xl mb-4">
-                    Vertex AI Insight
-                  </h3>
-
-                  <div className="bg-black p-6 rounded-2xl border border-zinc-700">
-
-                    <p className="text-gray-300 whitespace-pre-wrap leading-8">
-                      {selectedAnalysis.insight}
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div className="mb-10">
-
-                  <h3 className="font-bold text-2xl mb-4">
-                    MCP Workflow Architecture
-                  </h3>
-
-                  <div className="bg-black p-6 rounded-2xl border border-purple-500">
-
-                    <p className="text-purple-300 leading-8">
-                      MCP Orchestrator → Risk Analysis Agent → RAG Retrieval Agent → Vertex AI Reasoning Agent → Observability Layer
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div className="flex gap-4 mb-10">
-
-                  <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl font-semibold">
-
-                    Escalate Investigation
-
-                  </button>
-
-                  <button className="bg-green-600 hover:bg-green-700 transition px-6 py-3 rounded-xl font-semibold">
-
-                    Approve Claim
-
-                  </button>
-
-                </div>
-
-                <div>
-
-                  <h3 className="font-bold text-2xl mb-5">
-                    AI Observability
-                  </h3>
-
-                  <div className="space-y-5 max-h-[350px] overflow-y-scroll pr-2">
-
-                    {logs.slice().reverse().map(
-                      (log, index) => (
-
-                        <div
-                          key={index}
-                          className="border-l-2 border-red-500 pl-5 py-2"
-                        >
-
-                          <h4 className="font-semibold text-lg">
-                            {log.step}
-                          </h4>
-
-                          <p className="text-sm text-gray-400 mt-1">
-                            {log.timestamp}
-                          </p>
-
-                        </div>
-
-                      )
-                    )}
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            ) : (
-
-              <div className="flex items-center justify-center h-full">
-
-                <div className="text-center">
-
-                  <h3 className="text-3xl font-bold mb-4">
-                    AI Investigation Center
-                  </h3>
-
-                  <p className="text-gray-400 text-lg">
-                    Select a policyholder to start AI investigation.
-                  </p>
-
-                  <div className="mt-10 space-y-3 text-left">
-
-                    <div>
-                      ✓ MCP-inspired Multi-Agent Workflow
-                    </div>
-
-                    <div>
-                      ✓ Explainable AI
-                    </div>
-
-                    <div>
-                      ✓ RAG Grounded Reasoning
-                    </div>
-
-                    <div>
-                      ✓ Human-in-the-loop Decisions
-                    </div>
-
-                    <div>
-                      ✓ AI Observability Tracking
-                    </div>
-
-                    <div>
-                      ✓ Enterprise Policy Intelligence
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            )}
-
-          </div>
+          )}
 
         </div>
 
       </div>
 
-      {/* ========================================== */}
-      {/* FOOTER */}
-      {/* ========================================== */}
-
-      <div className="mt-16 text-center text-gray-500 text-sm">
-
-        Built for DeployFest 2026 using Google Cloud, Vertex AI, FastAPI & MCP-inspired Multi-Agent Architecture.
-
-      </div>
-
-    </div>
-  )
+    </main>
+  );
 }
