@@ -181,45 +181,17 @@ All actions are logged through the observability layer.
 
 # System Architecture
 
-```text id="readme1"
-Frontend (Next.js)
-        ↓
-Cloud Run Frontend
-        ↓
-FastAPI Backend
-        ↓
-MCP Orchestrator
-        ↓
-Risk Analysis Agent
-        ↓
-RAG Retrieval Agent
-        ↓
-Vertex AI Reasoning Agent
-        ↓
-Observability Layer
-        ↓
-Human Approval Workflow
-        ↓
-Google Cloud Storage Dataset
-```
+<p align="center">
+  <img src="assets/Architecture.png" width="900"/>
+</p>
 
 ---
 
 # AI Workflow
 
-```text id="readme2"
-Policy Selection
-        ↓
-Risk Analysis Agent
-        ↓
-RAG Context Retrieval
-        ↓
-Vertex AI Insight Generation
-        ↓
-Observability Logging
-        ↓
-Human Approval / Escalation
-```
+<p align="center">
+  <img src="assets/AI_Workflow.png" width="900"/>
+</p>
 
 ---
 
@@ -264,6 +236,12 @@ The dataset contains insurance policyholder information including:
 
 The target variable indicates whether the policyholder is likely to file a claim within the next 6 months.
 
+## Dataset Source
+
+Insurance Claim Prediction Dataset  
+Source: Kaggle
+
+https://www.kaggle.com/datasets/ifteshanajnin/carinsuranceclaimprediction-classification
 ---
 
 # Key Highlights
