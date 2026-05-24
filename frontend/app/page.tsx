@@ -189,12 +189,20 @@ export default function Home() {
 
         <div>
 
-          <h1 className="text-7xl font-extrabold text-red-500">
-            ClaimShield AI
-          </h1>
+          <div className="flex items-center gap-4">
 
-          <p className="text-gray-400 mt-4 text-2xl max-w-5xl">
-            AI-powered platform for detecting high-risk insurance claims
+            <h1 className="text-7xl font-extrabold text-red-500">
+              ClaimShield AI
+            </h1>
+
+            <span className="bg-green-500 text-black px-4 py-2 rounded-full text-sm font-bold">
+              LIVE ON GOOGLE CLOUD
+            </span>
+
+          </div>
+
+          <p className="text-gray-400 mt-4 text-2xl max-w-5xl leading-relaxed">
+            AI-powered platform for insurance claim risk intelligence
             using explainable AI, RAG-grounded reasoning,
             MCP-inspired orchestration, and human-in-the-loop workflows.
           </p>
@@ -294,7 +302,7 @@ export default function Home() {
       <div className="flex gap-4 flex-wrap mb-12">
 
         <div className="bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4">
-          🔴 Risk Analysis Agent ACTIVE
+          🔴 RiskAnalysisAgent ACTIVE
         </div>
 
         <div className="bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4">
@@ -363,7 +371,7 @@ export default function Home() {
                   </p>
 
                   <p>
-                    Historical Claim:{" "}
+                    Previous Claim History:{" "}
                     {policy.claim_status}
                   </p>
 
@@ -403,8 +411,9 @@ export default function Home() {
 
           {!selectedPolicy ? (
 
-            <div className="bg-zinc-900 rounded-3xl p-10 h-[700px] flex items-center justify-center text-3xl text-gray-500">
-              Select a policyholder to start AI investigation.
+            <div className="bg-zinc-900 rounded-3xl p-10 h-[700px] flex items-center justify-center text-3xl text-gray-500 text-center leading-relaxed">
+              Select a policyholder to initiate
+              MCP-driven AI risk investigation workflow.
             </div>
 
           ) : (
@@ -428,6 +437,16 @@ export default function Home() {
               <h3 className="text-5xl font-bold text-red-400 mt-10">
                 Risk Score: {selectedPolicy.risk.risk_score}
               </h3>
+
+              {/* LOADING */}
+
+              {loading && (
+
+                <div className="mt-8 bg-black border border-purple-500 rounded-2xl p-6 text-purple-300 text-2xl animate-pulse">
+                  MCP Orchestrator Activating...
+                </div>
+
+              )}
 
               {/* RISK REASONS */}
 
@@ -540,6 +559,12 @@ export default function Home() {
 
                 </div>
 
+              </div>
+
+              {/* FOOTER */}
+
+              <div className="mt-12 text-center text-gray-500 text-lg">
+                Powered by Google Cloud Run + Vertex AI
               </div>
 
             </div>
