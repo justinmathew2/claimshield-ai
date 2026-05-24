@@ -1,115 +1,200 @@
-# ClaimShield AI 🚀
+# ClaimShield AI
 
-AI-powered Insurance Claim Risk Intelligence Platform built using **Google Cloud, Vertex AI, FastAPI, Next.js, Retrieval-Grounded AI, and MCP-inspired multi-agent orchestration**.
-
-Built for **DeployFest 2026** hosted by Google Developer Groups Cloud Bengaluru.
+AI-powered Insurance Claim Risk Intelligence Platform using Vertex AI, MCP-inspired multi-agent orchestration, RAG-grounded reasoning, and human-in-the-loop workflows.
 
 ---
 
-# 🌟 Overview
+# Overview
 
-ClaimShield AI is an enterprise-grade AI investigation platform designed to identify high-risk insurance claims using real-world insurance datasets and AI-driven risk analysis.
+ClaimShield AI is a cloud-native AI investigation platform designed to identify potentially high-risk insurance policies that may require additional review or escalation.
 
 The platform combines:
 
-* AI-powered risk intelligence
-* MCP-inspired multi-agent orchestration
-* Retrieval-grounded reasoning
-* Explainable AI workflows
-* Human-in-the-loop approvals
-* AI observability and monitoring
+* Explainable AI
+* Multi-agent orchestration
+* Retrieval-Augmented Generation (RAG)
+* AI observability
+* Human approval workflows
+* Google Cloud-native deployment
 
-to create a scalable and trustworthy insurance claim investigation system.
+Unlike traditional black-box prediction systems, ClaimShield AI provides grounded reasoning, workflow traceability, and enterprise-style investigation visibility.
 
 ---
 
-# ✨ Key Features
+# Problem Statement
 
-## 🧠 MCP-Inspired Multi-Agent Architecture
+Insurance claim investigation and policy risk assessment are often:
 
-The platform uses modular AI agents coordinated through an orchestration layer:
+* manual
+* time-consuming
+* difficult to scale
+* lacking explainability and observability
 
-* MCP Orchestrator Agent
+Traditional systems struggle to:
+
+* identify high-risk policyholders efficiently
+* provide trustworthy AI reasoning
+* maintain auditability and workflow visibility
+* support human reviewers with actionable insights
+
+---
+
+# Solution
+
+ClaimShield AI provides:
+
+* AI-powered risk assessment
+* Explainable AI reasoning using Vertex AI
+* MCP-inspired multi-agent orchestration
+* RAG-grounded contextual reasoning
+* Human-in-the-loop approvals
+* AI observability and workflow logging
+* Cloud-native scalable deployment
+
+The system evaluates policyholder risk using attributes such as:
+
+* policy tenure
+* vehicle age
+* claim history
+* regional indicators
+* population density
+
+and recommends whether the policy should:
+
+* proceed normally
+* or be escalated for additional investigation.
+
+---
+
+# Features
+
+## AI Risk Analysis
+
+Calculates:
+
+* risk score
+* risk level
+* investigation indicators
+
+---
+
+## Vertex AI Reasoning
+
+Generates:
+
+* explainable investigation insights
+* grounded reasoning
+* human-readable recommendations
+
+Powered by:
+
+* Google Vertex AI
+* Gemini
+
+---
+
+## MCP-inspired Multi-Agent Orchestration
+
+Implements coordinated workflow execution between:
+
+* MCP Orchestrator
 * Risk Analysis Agent
 * RAG Retrieval Agent
 * Vertex AI Reasoning Agent
 * Observability Agent
 
-This architecture improves:
+---
 
-* modularity
-* workflow visibility
-* explainability
-* enterprise scalability
+## Retrieval-Augmented Generation (RAG)
+
+Uses:
+
+* ChromaDB
+* contextual retrieval workflows
+
+to reduce hallucinations and improve grounded reasoning.
 
 ---
 
-## 🔍 AI Risk Intelligence
+## AI Observability
 
-* Detects potentially risky insurance claims
-* Generates dynamic risk scores
-* Identifies suspicious policy patterns
-* Supports enterprise investigation workflows
+Tracks:
 
----
+* workflow execution
+* agent activity
+* orchestration events
+* human approval actions
 
-## 📚 Retrieval-Grounded AI
+Supports:
 
-* Retrieves insurance investigation context
-* Grounds AI-generated reasoning
-* Reduces hallucinations
-* Improves trustworthiness of AI outputs
-
----
-
-## 🤖 Vertex AI Integration
-
-* AI-generated explainable investigations
-* Human-readable claim insights
-* Context-aware reasoning using Gemini
+* auditability
+* enterprise monitoring
+* workflow traceability
 
 ---
 
-## 👨‍💼 Human-in-the-loop Workflow
+## Human-in-the-loop Workflow
 
-* Manual approval workflows
-* Escalation handling
-* AI-assisted decision support
-* Enterprise review process simulation
+Allows investigators to:
 
----
+* Approve Claim
+* Escalate Investigation
 
-## 📈 AI Observability
-
-* Investigation logs
-* Agent execution tracking
-* Workflow visibility
-* AI activity monitoring
+All actions are logged through the observability layer.
 
 ---
 
-## ☁️ Cloud-Native Architecture
+# Google Cloud Services Used
 
-* Frontend deployed on Google Cloud Run
-* Backend deployed on Google Cloud Run
-* Dataset stored securely in Google Cloud Storage
-* Fully live public deployment
+* Google Cloud Run
+* Vertex AI / Gemini
+* Google Cloud Storage
 
 ---
 
-# 🏗️ System Architecture
+# Tech Stack
 
-```text
-Frontend (Next.js + TailwindCSS)
+## Frontend
+
+* Next.js
+* TypeScript
+* Tailwind CSS
+
+## Backend
+
+* FastAPI
+* Python
+* Pandas
+
+## AI & Retrieval
+
+* Vertex AI / Gemini
+* ChromaDB
+* Retrieval-Augmented Generation (RAG)
+
+## Deployment
+
+* Google Cloud Run
+* Docker
+
+---
+
+# System Architecture
+
+```text id="readme1"
+Frontend (Next.js)
         ↓
 Cloud Run Frontend
         ↓
 FastAPI Backend
         ↓
-MCP Orchestrator Layer
-   ↙        ↓         ↘
-Risk      RAG      Vertex AI
-Agent     Agent      Agent
+MCP Orchestrator
+        ↓
+Risk Analysis Agent
+        ↓
+RAG Retrieval Agent
+        ↓
+Vertex AI Reasoning Agent
         ↓
 Observability Layer
         ↓
@@ -120,226 +205,93 @@ Google Cloud Storage Dataset
 
 ---
 
-# ⚙️ AI Workflow
+# AI Workflow
 
-```text
-User selects policy
+```text id="readme2"
+Policy Selection
         ↓
-MCP Orchestrator initializes workflow
+Risk Analysis Agent
         ↓
-Risk Analysis Agent calculates risk score
+RAG Context Retrieval
         ↓
-RAG Retrieval Agent fetches grounded context
+Vertex AI Insight Generation
         ↓
-Vertex AI generates explainable insights
+Observability Logging
         ↓
-Observability Layer logs execution flow
-        ↓
-Human reviewer approves or escalates claim
+Human Approval / Escalation
 ```
 
 ---
 
-# 🛠️ Tech Stack
+# Live Deployment
 
 ## Frontend
 
-* Next.js
-* TypeScript
-* Tailwind CSS
-* Axios
-
-## Backend
-
-* FastAPI
-* Python
-* Pandas
-
-## AI & Cloud
-
-* Vertex AI / Gemini
-* Google Cloud Run
-* Google Cloud Storage
-* MCP-inspired orchestration
-* Retrieval-grounded reasoning
-
----
-
-# 📊 Dataset
-
-The project uses a real-world car insurance claim prediction dataset containing:
-
-* Policy tenure
-* Vehicle age
-* Customer attributes
-* Claim history
-* Population density
-* Claim status
-
-The system uses this data to generate:
-
-* dynamic risk scores
-* explainable AI insights
-* enterprise investigation workflows
-
----
-
-# 🚀 Live Demo
-
-## Frontend
-
-```text
+```text id="readme3"
 https://claimshield-frontend-905201834317.us-central1.run.app
 ```
 
-## Backend API
+## Backend
 
-```text
+```text id="readme4"
 https://claimshield-backend-905201834317.us-central1.run.app
 ```
 
 ---
 
-# ⚡ Running Locally
+# Demo Workflow
 
-## Clone Repository
-
-```bash
-git clone <your-repo-url>
-cd claimshield-ai
-```
-
----
-
-# Backend Setup
-
-```bash
-cd backend
-```
-
-Create virtual environment:
-
-```bash
-python -m venv venv
-```
-
-Activate environment:
-
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run backend:
-
-```bash
-uvicorn main:app --reload
-```
-
-Backend runs at:
-
-```text
-http://localhost:8000
-```
+1. Select insurance policy
+2. Trigger AI investigation
+3. MCP orchestrator coordinates agents
+4. Risk score generated
+5. RAG retrieves contextual information
+6. Vertex AI generates explainable insight
+7. Observability layer logs workflow
+8. Human reviewer approves or escalates claim
 
 ---
 
-# Frontend Setup
+# Dataset
 
-```bash
-cd frontend
-```
+The dataset contains insurance policyholder information including:
 
-Install dependencies:
+* policy tenure
+* age of vehicle
+* age of policyholder
+* population density
+* claim history
 
-```bash
-npm install
-```
-
-Run frontend:
-
-```bash
-npm run dev
-```
-
-Frontend runs at:
-
-```text
-http://localhost:3000
-```
+The target variable indicates whether the policyholder is likely to file a claim within the next 6 months.
 
 ---
 
-# ☁️ Deploying to Google Cloud Run
+# Key Highlights
 
-## Backend Deployment
-
-```bash
-gcloud run deploy claimshield-backend \
---source . \
---region us-central1 \
---allow-unauthenticated \
---memory 1Gi
-```
-
----
-
-## Frontend Deployment
-
-```bash
-gcloud run deploy claimshield-frontend \
---source . \
---region us-central1 \
---allow-unauthenticated \
---memory 1Gi
-```
+* Explainable AI
+* Enterprise-style orchestration
+* RAG-grounded reasoning
+* Human-in-the-loop approvals
+* AI observability
+* Cloud-native deployment
+* Live public demo
+* Multi-agent architecture
 
 ---
 
-# 🎯 DeployFest Mission Alignment
+# Future Improvements
 
-This project directly addresses the DeployFest challenge requirements:
-
-✅ Google Cloud-native deployment
-✅ Vertex AI integration
-✅ Live public deployment
-✅ MCP-inspired AI orchestration
-✅ Task-executing AI agents
-✅ Retrieval-grounded reasoning
-✅ Explainable AI outputs
-✅ AI observability and telemetry
-✅ Human oversight workflows
+* Real-time streaming observability
+* BigQuery analytics integration
+* Advanced fraud intelligence workflows
+* Agent memory persistence
+* ML-based predictive scoring models
+* Role-based investigation dashboards
 
 ---
 
-# 🔮 Future Enhancements
+# Team
 
-* Real-time claim ingestion
-* BigQuery integration
-* Advanced fraud detection ML models
-* Vector database retrieval
-* Expanded multi-agent orchestration
-* Real-time monitoring dashboards
-* Enterprise SIEM/SOC integration
+## AIChampX
 
----
-
-# 👥 Team
-
-Built during DeployFest 2026 by:
-
-* Justin P Mathew (Team AIChampX)
-* Varada M V (Team AIChampX)
-
----
-
-# 📌 Disclaimer
-
-This project is a hackathon prototype built for educational and demonstration purposes.
+Built during DeployFest 2026 using Google Cloud and Vertex AI.
